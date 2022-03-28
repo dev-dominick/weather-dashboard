@@ -2,3 +2,23 @@
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+a {
+  color: white;
+  font-size: 24px;
+}
+
+a:hover {
+  color: red;
+}
+
+.navbar-brand {
+  font-size: 2.25rem;
+}
+
+.navbar {
+  justify-content: center;
+  font-size: 36px;
+  background-color: orange;
+  color: tan;
+}
+
