@@ -9,7 +9,7 @@ btn.addEventListener("click", getApi);
 function getApi(e){
   // let inputInfo = fetchLocation.value.trim();
   console.log(e);
-  var apiUrl = `${api}/data/2.5/weather?q=${input.value}&appid=${apiKey}`;
+  var apiUrl = `${api}/data/2.5/weather?q=${input.value}&appid=${apiKey}&units=imperial`;
   console.log(input.value);
   fetch(apiUrl)
     .then(function(response){
@@ -21,53 +21,59 @@ function getApi(e){
       console.log(lat);
       let lon = data.coord.lon
       console.log(lon);
-    })
 
-    let oneCall = `${api}/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}`
-    fetch(oneCall)
-    .then(function(weatherResponse){
-      return weatherResponse.json();
-    })
-    .then(function(weather){
-      console.log(weather);
-    })
+      let oneCall = `${api}/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+      fetch(oneCall)
+        .then(function (weatherResponse) {
+          return weatherResponse.json();
+        })
+        // .then(function (weather) {
+        //   console.log(weather);
+        // })
+        .then(function (weather) {
+          console.log(weather);
+          weather.current.temp;
+          console.log(weather.current.temp);
+          let cityName = document.createElement("h3");
+          cityName.textContent = `${input.value}`;
+          weatherContainer.append(cityName);
+          let temp = document.createElement("p");
+          temp.textContent = weather.daily[0].feels_like.day;;
+          weatherContainer.append(temp);
+          let wind = document.createElement("p");
+          wind.textContent = weather.wind.speed;
+          weatherContainer.append(wind);
+          let humidity = document.createElement("p");
+          humidity.textContent = weather.main.humidity;
+          weatherContainer.append(humidity);
+          let uv = document.createElement("p");
+          uv.textContent = weather.clouds.all;
+          weatherContainer.append(uv);
+        })
 
+        // .then(function (weather) {
+        //   console.log(weather);
+        //   weather.main.temp;
+        //   console.log(weather.main.temp);
+        //   let cityName = document.createElement("h3");
+        //   cityName.textContent = `${input.value}`;
+        //   weatherContainer.append(cityName);
+        //   let temp = document.createElement("p");
+        //   temp.textContent = weather.main.temp;
+        //   weatherContainer.append(temp);
+        //   let wind = document.createElement("p");
+        //   wind.textContent = weather.wind.speed;
+        //   weatherContainer.append(wind);
+        //   let humidity = document.createElement("p");
+        //   humidity.textContent = weather.main.humidity;
+        //   weatherContainer.append(humidity);
+        //   let uv = document.createElement("p");
+        //   uv.textContent = weather.clouds.all;
+        //   weatherContainer.append(uv);
+        // });
+   });
 
-    // need to fetch onecall api and input lat and long coords into next fetch
-    // .then(function (weather){
-    //   console.log(weather);
-    //   weather.main.temp
-    //   console.log(weather.main.temp);
-    //   let cityName = document.createElement('h3')
-    //   cityName.textContent = `${input.value}`
-    //   weatherContainer.append(cityName)
-    //   let temp = document.createElement('p')
-    //   temp.textContent = weather.main.temp
-    //   weatherContainer.append(temp)
-    //   let wind = document.createElement("p");
-    //   wind.textContent = weather.wind.speed
-    //   weatherContainer.append(wind)
-    //   let humidity = document.createElement("p");
-    //   humidity.textContent = weather.main.humidity
-    //   weatherContainer.append(humidity)
-    //   let uv = document.createElement('p')
-    //   uv.textContent = weather.clouds.all
-    //   weatherContainer.append(uv)
-
-
-
-
-    //   // CountQueuingStrategy.textContent = ${input.value}
-    //   // weatherContainer.append
-      
-    //   // for (let i = 0; i < weather.length; i++) {
-    //   //   let listItem = weather[i]
-    //   //   console.log(weather);
-        
-    //   // }
-    // });
-
-};
+    };
 
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city
