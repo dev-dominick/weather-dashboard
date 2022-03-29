@@ -1,23 +1,28 @@
-let api = `https://api.openweathermap.org`
-let apiKey = `5eaec850f935aee63f8f7d4cd1fb80d7`
-let fetchLocation = document.getElementById("search-btn")
+let api = 'https://api.openweathermap.org';
+let apiKey = "5eaec850f935aee63f8f7d4cd1fb80d7";
+let city = document.getElementById("#search-btn");
 
 
-https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+
 
 function getApi(){
-  let inputInfo = fetchLocation.value.trim();
-  let apiUrl = `${api}/data/2.5/weather?q=${inputInfo}&appid=${apiKey}`
-console.log(getApi)
+  // let inputInfo = fetchLocation.value.trim();
+  var apiUrl = `${api}/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
   fetch(apiUrl)
     .then(function(response){
       return response.json();
-      console.log(response)
     })
-
+    .then(function (weather){
+      for (let i = 0; i < weather.length; i++) {
+        let listItem = weather[i]
+        console.log(weather);
+        
+      }
+    });
 
 };
 
-fetchLocation.addEventListener("submit", getApi)
+city.addEventListener("click", getApi())
 
 
