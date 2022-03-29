@@ -22,6 +22,8 @@ function getApi(e){
       let lon = data.coord.lon
       console.log(lon);
 
+     
+
       let oneCall = `${api}/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
       fetch(oneCall)
         .then(function (weatherResponse) {
@@ -41,36 +43,17 @@ function getApi(e){
           temp.textContent = weather.daily[0].feels_like.day;;
           weatherContainer.append(temp);
           let wind = document.createElement("p");
-          wind.textContent = weather.wind.speed;
+          wind.textContent = weather.current.wind_speed;
           weatherContainer.append(wind);
           let humidity = document.createElement("p");
-          humidity.textContent = weather.main.humidity;
+          humidity.textContent = weather.current.humidity;
           weatherContainer.append(humidity);
           let uv = document.createElement("p");
-          uv.textContent = weather.clouds.all;
+          uv.textContent = weather.current.uvi;
           weatherContainer.append(uv);
         })
 
-        // .then(function (weather) {
-        //   console.log(weather);
-        //   weather.main.temp;
-        //   console.log(weather.main.temp);
-        //   let cityName = document.createElement("h3");
-        //   cityName.textContent = `${input.value}`;
-        //   weatherContainer.append(cityName);
-        //   let temp = document.createElement("p");
-        //   temp.textContent = weather.main.temp;
-        //   weatherContainer.append(temp);
-        //   let wind = document.createElement("p");
-        //   wind.textContent = weather.wind.speed;
-        //   weatherContainer.append(wind);
-        //   let humidity = document.createElement("p");
-        //   humidity.textContent = weather.main.humidity;
-        //   weatherContainer.append(humidity);
-        //   let uv = document.createElement("p");
-        //   uv.textContent = weather.clouds.all;
-        //   weatherContainer.append(uv);
-        // });
+      
    });
 
     };
