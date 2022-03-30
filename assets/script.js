@@ -3,8 +3,10 @@ let apiKey = "5eaec850f935aee63f8f7d4cd1fb80d7";
 let btn = document.getElementById("btn");
 let input = document.querySelector("#city-search")
 let weatherContainer = document.getElementById('weather-container')
+let outPut = document.getElementById("cityOutPut");
+let searchHistory = document.querySelector("#searchStorage")
 // console.log(input.value);
-btn.addEventListener("click", getApi);
+btn.addEventListener("click", getApi, listCity);
 
 function getApi(e){
   // let inputInfo = fetchLocation.value.trim();
@@ -36,20 +38,33 @@ function getApi(e){
           console.log(weather);
           weather.current.temp;
           console.log(weather.current.temp);
+
           let cityName = document.createElement("h3");
           cityName.textContent = `${input.value}`;
           weatherContainer.append(cityName);
+
+          // searchHistory.append(cityName);
+        
+
           let temp = document.createElement("p");
-          temp.textContent = weather.daily[0].feels_like.day;;
-          weatherContainer.append(temp);
+          temp.textContent = weather.current.temp;
+          weatherContainer.append("Temperature:");
+          weatherContainer.append(temp)
+          
+
           let wind = document.createElement("p");
           wind.textContent = weather.current.wind_speed;
+          weatherContainer.append("Wind Speed MPH")
           weatherContainer.append(wind);
+
           let humidity = document.createElement("p");
           humidity.textContent = weather.current.humidity;
+          weatherContainer.append("Percent Humidity:")
           weatherContainer.append(humidity);
+
           let uv = document.createElement("p");
           uv.textContent = weather.current.uvi;
+          weatherContainer.append("UV Index")
           weatherContainer.append(uv);
         })
 
@@ -57,6 +72,14 @@ function getApi(e){
    });
 
     };
+
+
+
+function listCity() {
+  let cityDisplay = `${input.value}`;
+  
+  outPut.append(cityDisplay)
+}
 
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city
