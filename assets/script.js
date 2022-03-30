@@ -5,31 +5,52 @@ let input = document.querySelector("#city-search")
 let weatherContainer = document.getElementById('weather-container')
 let outPut = document.getElementById("cityOutPut");
 let searchHistory = document.querySelector("#searchStorage")
+let historyBtn = []
 // console.log(input.value);
-btn.addEventListener("click", getApi, listCity);
+btn.addEventListener("click", getApi);
 
-function getApi(e){
+function getApi(){
   // let inputInfo = fetchLocation.value.trim();
-  console.log(e);
-  var apiUrl = `${api}/data/2.5/weather?q=${input.value}&appid=${apiKey}&units=imperial`;
+  // console.log(e);
+  var apiUrl = `${api}/geo/1.0/direct?q=${input.value}&limit=5&appid=${apiKey}`;
+
+  // var apiUrl = `${api}/data/2.5/weather?q=${input.value}&appid=${apiKey}&units=imperial`;
   console.log(input.value);
   fetch(apiUrl)
     .then(function(response){
       return response.json();
+      
     })
     .then(function(data){
       console.log(data);
-      let lat = data.coord.lat
-      console.log(lat);
-      let lon = data.coord.lon
-      console.log(lon);
+      if (!data[0]) {
+        alert("location not found");
+      }
+      else {
+        appendSearch(input);
+        weatherFetch(data[0]);
+      }
+    }).catch(function(err){
+      console.error(err);
+    });
+  }
 
+      // let lat = data.coord.lat
+      // console.log(lat);
+      // let lon = data.coord.lon
+      // console.log(lon);
+
+      // appendSearch(input);
      
-
-      let oneCall = `${api}/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+    function weatherFetch(location){
+      let { lat, lon } = location;
+      let city = location.name;
+      
+    
+      let oneCall = `${api}/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&appid=${apiKey}`;
       fetch(oneCall)
-        .then(function (weatherResponse) {
-          return weatherResponse.json();
+        .then(function (res) {
+          return res.json();
         })
         // .then(function (weather) {
         //   console.log(weather);
@@ -66,40 +87,67 @@ function getApi(e){
           uv.textContent = weather.current.uvi;
           weatherContainer.append("UV Index")
           weatherContainer.append(uv);
-        })
+        
 
       
    });
 
-    };
+    }
 
 
 
-
-$(".saveBtn").on("click", function () {
-  let text = $(this).siblings(".description").val().trim();
-  let time = $(this).parent().attr("id");
-  localStorage.setItem(time, text);
-});
-
-$(timeBlock9).val(localStorage.getItem("9"));
-$(timeBlock10).val(localStorage.getItem("10"));
-$(timeBlock11).val(localStorage.getItem("11"));
-$(timeBlock12).val(localStorage.getItem("12"));
-$(timeBlock13).val(localStorage.getItem("13"));
-$(timeBlock14).val(localStorage.getItem("14"));
-$(timeBlock15).val(localStorage.getItem("15"));
-$(timeBlock16).val(localStorage.getItem("16"));
-$(timeBlock17).val(localStorage.getItem("17"));
-
-
-
-
-function listCity() {
-  let cityDisplay = `${input.value}`;
-  
-  outPut.append(cityDisplay)
+function appendSearch(input) {
+  // var search = input.value;
+  if (historyBtn.indexOf(input.value) !== -1) {
+    return;
+  }
+  historyBtn.push(input.value);
+  localStorage.setItem("city", JSON.stringify(historyBtn));
+  btnCreate();
 }
+
+
+function btnCreate() {
+  searchStorage.innerHTML= '';
+  for (let i = historyBtn.length - 1; i >= 0; i--) {
+    var btn = document.createElement("button");
+    btn.setAttribute("type", "button");
+    btn.setAttribute("aria-controls", "today forecast");
+    btn.classList.add("history-btn", "btn-history");
+    btn.setAttribute("data-search", historyBtn[i]);
+    btn.textContent = historyBtn[i];
+    searchStorage.append(btn);
+    
+  }
+}
+
+function loadHistory() {
+  let getStorage = localStorage.getItem("city");
+  if (getStorage) {
+    historyBtn = JSON.parse(getStorage);
+  }
+  btnCreate();
+}
+loadHistory();
+function searchClick(e) {
+  if (!e.target.matches(".btn-history")) {
+    return;
+  }
+  let btn = e.target;
+  var input = btn.getAttribute("data-search");
+  getApi(input);
+}
+searchStorage.addEventListener("click", searchClick);
+
+
+
+
+
+
+
+
+
+
 
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city
