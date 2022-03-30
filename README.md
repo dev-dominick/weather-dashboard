@@ -21,9 +21,9 @@ No installation is required to run this application.
 
 ## Usage
 
+https://dev-dominick.github.io/weather-dashboard/
 
-
-![alt text](assets/images/screenshot.png)
+![alt text](./assets/weather.png)
 
 ## Credits
 
