@@ -75,6 +75,26 @@ function getApi(e){
 
 
 
+
+$(".saveBtn").on("click", function () {
+  let text = $(this).siblings(".description").val().trim();
+  let time = $(this).parent().attr("id");
+  localStorage.setItem(time, text);
+});
+
+$(timeBlock9).val(localStorage.getItem("9"));
+$(timeBlock10).val(localStorage.getItem("10"));
+$(timeBlock11).val(localStorage.getItem("11"));
+$(timeBlock12).val(localStorage.getItem("12"));
+$(timeBlock13).val(localStorage.getItem("13"));
+$(timeBlock14).val(localStorage.getItem("14"));
+$(timeBlock15).val(localStorage.getItem("15"));
+$(timeBlock16).val(localStorage.getItem("16"));
+$(timeBlock17).val(localStorage.getItem("17"));
+
+
+
+
 function listCity() {
   let cityDisplay = `${input.value}`;
   
