@@ -2,7 +2,7 @@
 
 ## Description
 
-I have developed an a weather dashboard to display a user current and future weather data for any location they search for.
+I have developed a weather dashboard to display a user current and future weather data for any location they search for. 
 
 
 
